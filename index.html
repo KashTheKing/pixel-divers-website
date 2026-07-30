@@ -23,7 +23,8 @@ body {
   position: relative;
   font-family: 'DePixel', monospace;
   color: #cfe8ff;
-  background: #001426 url('assets/panorama.png') center -800px / 100% auto no-repeat;
+  /* height pinned to page so every viewport sees the same art per section; top 800px cropped */
+  background: #001426 url('assets/panorama.png') center -800px / 100% calc(100% + 800px) no-repeat;
   image-rendering: pixelated;
   cursor: url('assets/cursor.png'), auto;
   overflow-x: hidden;
