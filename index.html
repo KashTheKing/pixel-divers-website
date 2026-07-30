@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Divers — a co-op ocean survival adventure</title>
+<meta name="description" content="Pixel Divers: a 2D co-op ocean survival adventure. Dive through seven ever-darker layers, mine, craft, build bases, crew subs — and answer the call from the bottom.">
+<meta property="og:title" content="Pixel Divers">
+<meta property="og:description" content="A 2D co-op ocean survival adventure. Something ancient calls from the floor of an alien sea.">
+<meta property="og:image" content="https://pixeldivers.world/assets/pixel-divers-banner.png">
+<link rel="icon" href="assets/logo-8x.png">
+<style>
+@font-face {
+  font-family: 'DePixel';
+  src: url('assets/fonts/DePixelHalbfett.ttf') format('truetype');
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  position: relative;
+  font-family: 'DePixel', monospace;
+  color: #cfe8ff;
+  background: #001426 url('assets/panorama.png') center -800px / 100% auto no-repeat;
+  image-rendering: pixelated;
+  cursor: url('assets/cursor.png'), auto;
+  overflow-x: hidden;
+  line-height: 1.35;
+}
+a, button { cursor: url('assets/cursor.png'), pointer; }
+
+/* depth gradient: darker and grayer the deeper you scroll */
+body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(10,14,20,0) 0%,
+    rgba(10,14,20,.18) 30%,
+    rgba(8,11,16,.42) 55%,
+    rgba(6,8,12,.86) 80%,
+    rgba(2,3,5,1) 100%
+  );
+}
+
+/* ---- parallax background ---- */
+.layer {
+  position: fixed;
+  inset: -10% 0;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+/* light rays fading with depth */
+.rays {
+  background: linear-gradient(100deg,
+    transparent 20%, rgba(180,225,255,.06) 25%, transparent 30%,
+    transparent 45%, rgba(180,225,255,.05) 50%, transparent 55%,
+    transparent 70%, rgba(180,225,255,.04) 75%, transparent 80%);
+  opacity: 1;
+}
+
+/* ---- layout ---- */
+main { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 28px;
+}
+.hero img.logo {
+  width: min(1400px, 95vw);
+  image-rendering: pixelated;
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,.6));
+}
+.tagline {
+  font-size: 19px;
+  margin-top: -8vw;
+  max-width: 560px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.8);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'DePixel', monospace;
+  font-size: 18px;
+  color: #cfe8ff;
+  text-decoration: none;
+  background: #002a4d;
+  padding: 16px 28px;
+  border: 3px solid #7fb4e8;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.5);
+  image-rendering: pixelated;
+  transition: transform .1s;
+}
+.btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(0,0,0,.5); }
+.btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 rgba(0,0,0,.5); }
+.btn svg { width: 24px; height: 24px; fill: #cfe8ff; }
+
+section { padding: 12vh 0; }
+h2 {
+  font-family: 'DePixel', monospace;
+  font-weight: bold;
+  font-size: clamp(20px, 3vw, 26px);
+  margin-bottom: 18px;
+  color: #ffd447;
+  text-shadow: 2px 2px 0 rgba(0,0,0,.5);
+}
+p { font-size: 18px; margin-bottom: 14px; text-shadow: 0 2px 6px rgba(0,0,0,.7); }
+
+.intro p:first-child {
+  font-family: 'DePixel', monospace;
+  font-weight: bold;
+  font-size: clamp(18px, 2.6vw, 22px);
+  line-height: 1.65;
+  color: #ffd447;
+}
+
+ul.features { list-style: none; }
+ul.features li {
+  font-size: 18px;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+  text-shadow: 0 2px 6px rgba(0,0,0,.7);
+}
+ul.features li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: #ffd447;
+}
+
+.outro {
+  text-align: center;
+  font-family: 'DePixel', monospace;
+  font-weight: bold;
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.8;
+  color: #8b1a1a;
+  padding: 20vh 0;
+}
+
+footer {
+  text-align: center;
+  padding: 48px 24px 64px;
+  font-size: 11px;
+  color: #4a6a8a;
+}
+footer a { color: #7fb4e8; }
+</style>
+</head>
+<body>
+
+<div class="layer rays" id="rays"></div>
+
+<main>
+  <header class="hero">
+    <img class="logo" src="assets/logo-12x.png" alt="Pixel Divers">
+    <p class="tagline">A 2D co-op ocean survival adventure. The surface was never the whole story — something ancient calls from the floor of an alien sea.</p>
+    <a class="btn" href="https://discord.gg/aAdwxTzrkf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>Join the Discord</a>
+  </header>
+
+  <section class="intro">
+    <p>It was here before the planet's first tide, and it is the reason you are here now.</p>
+    <p>Its call pulls you down through a world stacked seven layers deep — from the open air and sunlit shallows through five ever-darker reaches of the sea to a lightless Void where the terrain simply ends and the caller waits.</p>
+    <p>Every world is procedurally generated from a seed and fully yours to reshape: mine every tile, carve tunnels through the seafloor, and leave marks the world remembers between sessions. Play solo, or host a shared world over Steam and bring your friends down with you.</p>
+  </section>
+
+  <section>
+    <h2>Descend</h2>
+    <p>The planet's crust is split by massive rock shelves, and each one gates a deeper, stranger layer of the sea. The shallows welcome you with reefs, wrecks, and easy air. Below them wait glowing twilight forests, freezing black water, leviathan graveyards, and crushing trenches. At the very bottom lies the Void, where light is swallowed whole.</p>
+    <p>Early shelves can be swum through. The deep ones demand rated submarines, heavy drills, and permanent gates — because the sea slowly seals every hole you make in it.</p>
+  </section>
+
+  <section>
+    <h2>Survive</h2>
+    <p>Your body keeps a strict ledger: oxygen, hunger, thirst, and pressure. Your mind keeps another. Darkness drains your sanity, warping what you see and hear, and the deeper you go the faster it feeds. Light, warmth, and a lit home are how you stay yourself.</p>
+    <p>Your health never grows; a hundred hours in, the deep is exactly as lethal as it was on day one. Getting stronger means better gear, better vessels, and better judgment.</p>
+  </section>
+
+  <section>
+    <h2>Build &amp; Progress</h2>
+    <p>Everything you strip from the seafloor feeds a tech tree that climbs from surface scrap to void-grade alloys. Craft diving suits, tanks, tools, and weapons. Raise pressurized seafloor habitats with working air, hydrothermal power, and dry docks — and keep them sealed, because a breach floods rooms and a cut power line kills the lights and the oxygen together.</p>
+    <p>Each layer's key technology is your goal, your ticket down, and your proof you earned the depth.</p>
+  </section>
+
+  <section>
+    <h2>Crew Up</h2>
+    <p>Submarines scale with your ambitions, from a nimble one-seat scout to hulking multi-crew vessels with walkable interiors: a helm, gun stations, airlocks, and hulls that need welding mid-fight. Proximity voice chat muffles through steel, so crewmates sound close and the outside sounds wrong.</p>
+    <p>Fight together with harpoons, blades, and a directional parry system where a perfect block breaks a creature's posture and opens it to a killing blow. Or turn pirate: board rival subs, breach their airlocks, flood their corridors, and raid bases in the lawless deep.</p>
+  </section>
+
+  <section>
+    <h2>What Awaits Below</h2>
+    <ul class="features">
+      <li>A seed-generated 2D world with distinct biomes, caves, ore veins, wrecks, ruins, and dungeons to loot</li>
+      <li>Stalking predators that shadow you just beyond your light, and leviathans guarding each layer like disciples of the thing below</li>
+      <li>Persistent worlds: your tunnels, builds, and stash are exactly where you left them</li>
+      <li>Steam co-op with friend invites, proximity voice, and drop-in crews</li>
+      <li>Optional PvP, from submarine boarding actions to dark raids on enemy bases</li>
+      <li>Horror built from pressure, distance, and a shrinking circle of light</li>
+    </ul>
+  </section>
+
+  <div class="outro">
+    <p>The sea grows more hostile the further you descend.</p>
+    <p>Answer the call, and it will make room for you at the bottom.</p>
+    <a class="btn" href="https://discord.gg/aAdwxTzrkf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>Join the Discord</a>
+  </div>
+
+  <footer>
+    © 2026 <a href="https://github.com/KashTheKing">KashTheKing</a> · Pixel Explorers LLC · <a href="/eula/">EULA</a>
+  </footer>
+</main>
+
+<script>
+// parallax: fog/bubbles/rays drift at different speeds
+const rays = document.getElementById('rays');
+let ticking = false;
+addEventListener('scroll', () => {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const y = scrollY;
+    rays.style.transform = `translateY(${y * -0.05}px)`;
+    rays.style.opacity = Math.max(0, 1 - y / (innerHeight * 2.5));
+    ticking = false;
+  });
+}, { passive: true });
+</script>
+
+</body>
+</html>
