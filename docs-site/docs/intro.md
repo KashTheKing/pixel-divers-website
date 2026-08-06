@@ -40,7 +40,7 @@ What's covered:
   and how item behaviour works.
 - **[Entities & mobs](entities-and-mobs.md)** — how creatures and vehicles are assembled
   from components.
-- **[Modding](modding.md)** — the modding guide (in progress).
+- **[Modding](modding.md)** — making, installing, and publishing mods.
 
 ## A note on stability
 
