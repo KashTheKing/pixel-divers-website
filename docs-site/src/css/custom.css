@@ -1,0 +1,41 @@
+/**
+ * Pixel Divers docs theme — dark-first ocean palette matching pixeldivers.world
+ * (navy #001426 background, cyan #cfe8ff text, #7fb4e8 accents, #ffd447 headings).
+ */
+
+:root {
+  --ifm-color-primary: #1a6fa8;
+  --ifm-color-primary-dark: #176497;
+  --ifm-color-primary-darker: #165e8f;
+  --ifm-color-primary-darkest: #124e76;
+  --ifm-color-primary-light: #1d7ab9;
+  --ifm-color-primary-lighter: #1e80c1;
+  --ifm-color-primary-lightest: #2790d5;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #7fb4e8;
+  --ifm-color-primary-dark: #61a3e3;
+  --ifm-color-primary-darker: #529be0;
+  --ifm-color-primary-darkest: #2781d7;
+  --ifm-color-primary-light: #9dc5ed;
+  --ifm-color-primary-lighter: #accdf0;
+  --ifm-color-primary-lightest: #d9e9f8;
+  --ifm-background-color: #001426;
+  --ifm-background-surface-color: #002a4d;
+  --ifm-navbar-background-color: #001b33;
+  --ifm-footer-background-color: #000d1a;
+  --ifm-font-color-base: #cfe8ff;
+  --ifm-heading-color: #ffd447;
+  --docusaurus-highlighted-code-line-bg: rgba(127, 180, 232, 0.15);
+}
+
+[data-theme='dark'] .navbar {
+  border-bottom: 2px solid #003a66;
+}
+
+.navbar-pixel-logo {
+  image-rendering: pixelated;
+}
