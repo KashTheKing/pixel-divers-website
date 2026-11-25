@@ -6,7 +6,7 @@ The official landing page for Pixel Divers, a 2D co-op ocean survival adventure.
 
 - `index.html` - the landing page (single file, no build step)
 - `eula/index.html` - the End User License Agreement, served at `/eula`
-- `assets/` - logo, panorama background, custom cursor, banner, and the DePixel font
+- `assets/` - logo, panorama background, custom cursor, banner, and the Pixel Divers font
 - `CNAME` - custom domain config for GitHub Pages
 
 ## Hosting
