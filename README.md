@@ -18,4 +18,4 @@ Served by GitHub Pages from the `main` branch root. Pushing to `main` deploys au
 - Discord: https://discord.gg/aAdwxTzrkf
 - EULA: https://pixeldivers.world/eula
 
-(c) 2026 KashTheKing / Pixel Explorers LLC
+(c) 2026 KashTheKing / Pixel Explorers
